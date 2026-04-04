@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MorselHub — Your AI Message Hub</title>
+  <meta name="description" content="MorselHub connects iMessage, RetroCode, and webhooks to Claude AI. Every morsel counts.">
+  <link rel="icon" href="images/morselhub-icon.png" type="image/png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, system-ui, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.7; }
+    a { color: #00cccc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero { text-align: center; padding: 80px 20px 60px; background: linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 100%); }
+    .hero-icon { width: 200px; height: 200px; border-radius: 36px; margin-bottom: 28px; box-shadow: 0 20px 60px rgba(0,204,204,0.15); }
+    .hero h1 { font-size: 3rem; font-weight: 800; color: #00cccc; text-shadow: 0 0 40px rgba(0,204,204,0.3); margin-bottom: 12px; }
+    .hero .tagline { font-size: 1.4rem; color: #aaa; margin-bottom: 12px; }
+    .hero .subtitle { font-size: 1.05rem; color: #777; max-width: 650px; margin: 0 auto 36px; line-height: 1.8; }
+    .dl-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 12px; font-weight: 700; background: #00cccc; color: #000; font-size: 1.1rem; transition: all 0.2s; }
+    .dl-btn:hover { background: #00eedd; text-decoration: none; transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,204,204,0.3); }
+    .dl-note { font-size: 0.85rem; color: #555; margin-top: 16px; }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 60px 0; border-top: 1px solid #1a1a1a; }
+    .section h2 { font-size: 2rem; font-weight: 700; color: #00cccc; margin-bottom: 24px; }
+    .section h3 { font-size: 1.2rem; color: #e0e0e0; margin: 16px 0 8px; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .feature { background: #141414; border: 1px solid #222; border-radius: 14px; padding: 24px; transition: border-color 0.2s; }
+    .feature:hover { border-color: #00cccc40; }
+    .feature h3 { color: #00cccc; margin: 0 0 8px; font-size: 1.05rem; }
+    .feature p { color: #888; font-size: 0.95rem; }
+    .flow { background: #0d0d0d; border: 1px solid #222; border-radius: 10px; padding: 24px; font-family: 'SF Mono', monospace; font-size: 0.95rem; color: #00cccc; margin: 20px 0; line-height: 2; }
+    .story { font-size: 1.1rem; color: #bbb; line-height: 1.9; }
+    .story em { color: #00cccc; font-style: normal; }
+    .code { background: #0d0d0d; color: #00cccc; padding: 3px 10px; border-radius: 5px; font-family: 'SF Mono', monospace; font-size: 0.9rem; }
+    .footer { text-align: center; padding: 50px 20px; border-top: 1px solid #1a1a1a; color: #444; font-size: 0.85rem; }
+    .footer a { color: #00cccc; }
+    .badge { display: inline-block; background: #00cccc; color: #000; padding: 3px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; }
+    nav { display: flex; justify-content: center; gap: 24px; padding: 16px; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/docs">Docs</a>
+  <a href="https://github.com/senzalldev/morselhub-app">GitHub</a>
+  <a href="https://senzall.com">Senzall</a>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <img src="images/morselhub-icon.png" alt="MorselHub" class="hero-icon">
+  <h1>MorselHub</h1>
+  <p class="tagline">Your AI Message Hub</p>
+  <p class="subtitle">Connect iMessage, RetroCode, and webhooks to Claude AI. Messages push instantly via Channels. Replies route back to the source. Every morsel counts.</p>
+  <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
+  <p class="dl-note">v1.0.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
+</div>
+
+<div class="container">
+
+  <!-- Story -->
+  <div class="section">
+    <h2>Why MorselHub?</h2>
+    <p class="story">
+      Senzall loves working with <em>Agentic AI</em> so much he wanted a way to talk to it anytime — using retro tools and modern gadgets alike. Ever since that first <em>TRS-80</em> in the 1980s and learning Assembly, Pascal, and many other languages over the years, Senzall has been sharing his love of all things tech with friends, family, and strangers.
+    </p>
+    <p class="story" style="margin-top:16px;">
+      MorselHub is a growing set of connectors you can use with <em>Claude</em> — and soon other AI platforms — to have safe and exciting interactions. Every morsel of a message, every small bit of an idea, gets delivered to your AI assistant instantly. <em>Every morsel counts.</em>
+    </p>
+  </div>
+
+  <!-- How It Works -->
+  <div class="section">
+    <h2>How It Works</h2>
+    <div class="flow">
+iMessage ──→ MorselHub ──→ MCP Channel ──→ Claude Code<br>
+RetroCode ──→ &nbsp; &nbsp;↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;↓<br>
+Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Claude's Reply
+    </div>
+    <p style="color:#999;">Messages arrive from any source. MorselHub displays them in a live feed, pushes actionable ones to Claude via the MCP Channel protocol, and routes Claude's replies back to the original sender — including iMessage replies via AppleScript.</p>
+  </div>
+
+  <!-- Features -->
+  <div class="section">
+    <h2>Features</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>💬 iMessage Bridge</h3>
+        <p>Listen for messages with a keyword trigger from approved contacts. Replies go back as iMessages automatically.</p>
+      </div>
+      <div class="feature">
+        <h3>🔧 RetroCode Connector</h3>
+        <p>Bridge to RetroCode's chat panel. Code in Assembly or BASIC while chatting with Claude.</p>
+      </div>
+      <div class="feature">
+        <h3>🔗 Webhook Receiver</h3>
+        <p>POST to /api/message from any app — CI pipelines, monitoring alerts, custom integrations.</p>
+      </div>
+      <div class="feature">
+        <h3>⚡ Instant Push</h3>
+        <p>Messages push to Claude instantly via MCP Channels using the official @modelcontextprotocol/sdk.</p>
+      </div>
+      <div class="feature">
+        <h3>🛡️ Security First</h3>
+        <p>Strict contact allowlist. Blocked senders never reach Claude. Master contact alerts. Prompt injection protection.</p>
+      </div>
+      <div class="feature">
+        <h3>📊 Dashboard</h3>
+        <p>Stats grid, contact leaderboard, activity log (last 100 entries persisted to JSON).</p>
+      </div>
+      <div class="feature">
+        <h3>🎨 6 Themes</h3>
+        <p>Default, Dark, Standard, Light, RPG, and High Contrast — same themes as RetroCode.</p>
+      </div>
+      <div class="feature">
+        <h3>🔔 Master Alerts</h3>
+        <p>Designate a master contact who receives iMessage alerts when blocked senders try or non-master contacts message Claude.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Start -->
+  <div class="section">
+    <h2>Quick Start</h2>
+    <ol style="padding-left:24px;color:#ccc;font-size:1.05rem;line-height:2.4;">
+      <li>Download and open MorselHub</li>
+      <li>Grant <strong>Full Disk Access</strong> for iMessage reading</li>
+      <li>Configure your iMessage address and approved contacts</li>
+      <li>Click <strong>Install MCP Server</strong> in the Setup tab</li>
+      <li>In Terminal: <span class="code">claude mcp add morselhub node ~/morselhub-mcp-server.mjs</span></li>
+      <li>Start Claude: <span class="code">claude --dangerously-load-development-channels server:morselhub</span></li>
+      <li>Send yourself an iMessage starting with "Claude:" — it arrives in MorselHub, pushes to Claude, and Claude replies via iMessage</li>
+    </ol>
+  </div>
+
+  <!-- Permissions & Security -->
+  <div class="section">
+    <h2>Permissions & Security</h2>
+
+    <h3>Full Disk Access (macOS)</h3>
+    <p style="color:#bbb;margin-bottom:12px;">MorselHub reads your iMessage database (<span class="code">~/Library/Messages/chat.db</span>) to detect incoming messages. macOS requires Full Disk Access for this.</p>
+    <ol style="padding-left:24px;color:#ccc;font-size:0.95rem;line-height:2;">
+      <li>Open <strong>System Settings</strong> > <strong>Privacy & Security</strong> > <strong>Full Disk Access</strong></li>
+      <li>Click <strong>+</strong> and add <strong>MorselHub.app</strong> (from your Applications folder)</li>
+      <li>Toggle it <strong>on</strong></li>
+      <li>Restart MorselHub</li>
+    </ol>
+    <p style="color:#888;font-size:0.9rem;margin-top:8px;">During development, add <strong>Terminal.app</strong> instead (the dev binary inherits its permissions).</p>
+
+    <h3 style="margin-top:24px;">Contact Allowlist</h3>
+    <p style="color:#bbb;margin-bottom:8px;">Only messages from people you explicitly approve will ever reach Claude. Unknown senders are blocked and logged. You can designate a master contact to receive iMessage alerts about security events.</p>
+
+    <h3 style="margin-top:24px;">⚠️ Important Warnings</h3>
+    <div style="background:#1a1000;border:1px solid #4a3000;border-radius:10px;padding:20px;margin-top:12px;color:#e0c060;font-size:0.95rem;line-height:1.7;">
+      <p><strong>Be very careful who you add to your contact list.</strong> Anyone on the list can send messages that Claude will act on — including running commands, editing files, and accessing your computer via Claude Code's tools.</p>
+      <p style="margin-top:12px;"><strong>Token usage:</strong> Every message forwarded to Claude consumes tokens from your Claude subscription. Frequent or large messages will increase your token usage.</p>
+      <p style="margin-top:12px;"><strong>Computer access:</strong> Claude Code has access to your local files, terminal, and development tools. Messages from approved contacts can trigger Claude to take actions on your machine.</p>
+      <p style="margin-top:12px;"><strong>Use at your own risk.</strong> MorselHub is provided as-is, without warranty. The developers are not responsible for any actions taken by Claude in response to forwarded messages, any unauthorized access, data loss, or token charges. You are solely responsible for managing your contact list and monitoring Claude's activity.</p>
+    </div>
+  </div>
+
+  <!-- Links -->
+  <div class="section">
+    <h2>Resources</h2>
+    <ul style="padding-left:24px;color:#999;font-size:1rem;line-height:2;">
+      <li><a href="https://github.com/senzalldev/morselhub-app">GitHub — Downloads & README</a></li>
+      <li><a href="https://github.com/senzalldev/morselhub-app/issues">Report an Issue</a></li>
+      <li><a href="https://senzall.com/retrocode">RetroCode — 1980s Meets AI</a></li>
+      <li><a href="https://senzall.com">Senzall</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p style="margin-bottom:8px;"><strong style="color:#00cccc;">Every morsel counts.</strong></p>
+  <p>Copyright © 2026 <a href="https://senzall.com">Senzall</a>. All rights reserved.</p>
+</div>
+
+</body>
+</html>
