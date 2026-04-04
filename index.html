@@ -138,6 +138,32 @@ Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Cl
     </ol>
   </div>
 
+  <!-- Permissions & Security -->
+  <div class="section">
+    <h2>Permissions & Security</h2>
+
+    <h3>Full Disk Access (macOS)</h3>
+    <p style="color:#bbb;margin-bottom:12px;">MorselHub reads your iMessage database (<span class="code">~/Library/Messages/chat.db</span>) to detect incoming messages. macOS requires Full Disk Access for this.</p>
+    <ol style="padding-left:24px;color:#ccc;font-size:0.95rem;line-height:2;">
+      <li>Open <strong>System Settings</strong> > <strong>Privacy & Security</strong> > <strong>Full Disk Access</strong></li>
+      <li>Click <strong>+</strong> and add <strong>MorselHub.app</strong> (from your Applications folder)</li>
+      <li>Toggle it <strong>on</strong></li>
+      <li>Restart MorselHub</li>
+    </ol>
+    <p style="color:#888;font-size:0.9rem;margin-top:8px;">During development, add <strong>Terminal.app</strong> instead (the dev binary inherits its permissions).</p>
+
+    <h3 style="margin-top:24px;">Contact Allowlist</h3>
+    <p style="color:#bbb;margin-bottom:8px;">Only messages from people you explicitly approve will ever reach Claude. Unknown senders are blocked and logged. You can designate a master contact to receive iMessage alerts about security events.</p>
+
+    <h3 style="margin-top:24px;">⚠️ Important Warnings</h3>
+    <div style="background:#1a1000;border:1px solid #4a3000;border-radius:10px;padding:20px;margin-top:12px;color:#e0c060;font-size:0.95rem;line-height:1.7;">
+      <p><strong>Be very careful who you add to your contact list.</strong> Anyone on the list can send messages that Claude will act on — including running commands, editing files, and accessing your computer via Claude Code's tools.</p>
+      <p style="margin-top:12px;"><strong>Token usage:</strong> Every message forwarded to Claude consumes tokens from your Claude subscription. Frequent or large messages will increase your token usage.</p>
+      <p style="margin-top:12px;"><strong>Computer access:</strong> Claude Code has access to your local files, terminal, and development tools. Messages from approved contacts can trigger Claude to take actions on your machine.</p>
+      <p style="margin-top:12px;"><strong>Use at your own risk.</strong> MorselHub is provided as-is, without warranty. The developers are not responsible for any actions taken by Claude in response to forwarded messages, any unauthorized access, data loss, or token charges. You are solely responsible for managing your contact list and monitoring Claude's activity.</p>
+    </div>
+  </div>
+
   <!-- Links -->
   <div class="section">
     <h2>Resources</h2>
