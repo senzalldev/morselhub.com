@@ -65,7 +65,7 @@
 
   <!-- RetroCode Callout -->
   <div style="background: linear-gradient(135deg, #0a1a0a, #0a0a0a); border: 1px solid #1a3a1a; border-radius: 14px; padding: 28px; margin-top: -20px; margin-bottom: 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
-    <div style="flex-shrink: 0; width: 64px; height: 64px; border-radius: 14px; background: #0a0a0a; border: 1px solid #2a4a2a; display: flex; align-items: center; justify-content: center; font-size: 2rem;">🔧</div>
+    <img src="images/retrocode-icon.png" alt="RetroCode" style="width: 64px; height: 64px; border-radius: 14px; flex-shrink: 0;">
     <div style="flex: 1; min-width: 200px;">
       <div style="font-size: 1.2rem; font-weight: 700; color: #00ff41; margin-bottom: 4px;">Works with RetroCode</div>
       <div style="color: #888; font-size: 0.95rem; line-height: 1.6;">Write 8-bit assembly. Program in BASIC. Code in 25 languages. Enable the MorselHub connector in RetroCode and your coding sessions flow through MorselHub to Claude — alongside iMessage and webhooks.</div>
@@ -107,11 +107,7 @@
   <!-- How It Works -->
   <div class="section">
     <h2>How It Works</h2>
-    <div class="flow">
-iMessage ──→ MorselHub ──→ MCP Channel ──→ Claude Code<br>
-RetroCode ──→ &nbsp; &nbsp;↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;↓<br>
-Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Claude's Reply
-    </div>
+    <img src="images/overview.png" alt="MorselHub Architecture" style="width:100%; max-width:900px; border-radius:10px; margin: 16px auto; display: block;">
     <p style="color:#999;">Messages arrive from any source. MorselHub displays them in a live feed, pushes actionable ones to Claude via the MCP Channel protocol, and routes Claude's replies back to the original sender — including iMessage replies via AppleScript.</p>
   </div>
 
@@ -160,30 +156,7 @@ Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Cl
     <p style="color:#bbb;margin-bottom:20px;">MorselHub is a push-based message hub. Messages flow in from multiple sources, get displayed in the feed, and actionable ones push directly to Claude via MCP Channels. Claude responds using MCP tools — replies route back to the original sender.</p>
 
     <h3>System Overview</h3>
-    <div class="flow">
-┌──────────────┐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;┌──────────────┐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;┌──────────────┐<br>
-│&nbsp;&nbsp;iMessage&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;RetroCode&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;Webhooks&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-│&nbsp;&nbsp;(chat.db)&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;(port 21580)&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;(any app)&nbsp;&nbsp;&nbsp;│<br>
-└──────┬───────┘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──────┬───────┘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──────┬───────┘<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
-┌──────────────────────────────────────────────────────┐<br>
-│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MorselHub App (port 21590)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-│&nbsp;&nbsp;&nbsp;Message Feed&nbsp;&nbsp;│&nbsp;&nbsp;push.jsonl&nbsp;&nbsp;│&nbsp;&nbsp;Activity Log&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-└──────────────────────┬───────────────────────────────┘<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ fs.watchFile<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
-┌──────────────────────────────────────────────────────┐<br>
-│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MCP Server (morselhub-mcp-server.mjs)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-│&nbsp;&nbsp;&nbsp;@modelcontextprotocol/sdk&nbsp;&nbsp;│&nbsp;&nbsp;Channel Push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-└──────────────────────┬───────────────────────────────┘<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ notifications/claude/channel<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
-┌──────────────────────────────────────────────────────┐<br>
-│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claude Code (CLI)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-│&nbsp;&nbsp;&nbsp;MorselHub tools&nbsp;&nbsp;│&nbsp;&nbsp;RetroCode tools (23)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-└──────────────────────────────────────────────────────┘
-    </div>
+    <img src="images/overview.png" alt="MorselHub System Architecture" style="width:100%; max-width:900px; border-radius:10px; margin: 16px 0;">
   </div>
 
   <!-- Connection Details -->
@@ -191,54 +164,15 @@ Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Cl
     <h2>Connection Details</h2>
 
     <h3>💬 iMessage Connection</h3>
-    <div class="flow" style="font-size:0.85rem;">
-iPhone/Mac sends iMessage with "Claude:" keyword<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-macOS Messages.app syncs to ~/Library/Messages/chat.db<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-MorselHub reads chat.db (polls every 3s, reads attributedBody)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Checks: keyword present? sender in contacts? → YES<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Writes to ~/.morselhub/push.jsonl → MCP server → Claude<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Claude calls morselhub_reply(destination="imessage")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-MorselHub sends reply via AppleScript → Messages.app → iMessage
-    </div>
+    <img src="images/imessage.png" alt="iMessage Flow" style="width:100%; max-width:900px; border-radius:10px; margin: 16px 0;">
     <p style="color:#888;font-size:0.9rem;">Requires <strong>Full Disk Access</strong> permission. Only approved contacts with the keyword trigger Claude. Blocked senders are logged but never forwarded.</p>
 
     <h3 style="margin-top:32px;">🔧 RetroCode Connection</h3>
-    <div class="flow" style="font-size:0.85rem;">
-User types in RetroCode's chat panel (MorselHub provider selected)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-RetroCode POSTs to MorselHub: POST /api/message<br>
-&nbsp;&nbsp;{ source:"retrocode", sender:"RetroCode", text:"[BASIC] draw a cat" }<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-MorselHub writes to push.jsonl → MCP server → Claude<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Claude calls retrocode_chat(text="Drawing a cat!") → direct to RetroCode<br>
-Claude calls retrocode_set_editor(content="10 REM CAT...") → writes code<br>
-Claude calls retrocode_run() → runs the program<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Reply appears in RetroCode's chat + code runs in the editor
-    </div>
+    <img src="images/retrocode.png" alt="RetroCode Flow" style="width:100%; max-width:900px; border-radius:10px; margin: 16px 0;">
     <p style="color:#888;font-size:0.9rem;">Claude has both MorselHub tools AND RetroCode's 23 MCP tools. It can write code, run programs, manage files, and control the terminal — all from a chat message.</p>
 
     <h3 style="margin-top:32px;">🔗 Webhook Connection</h3>
-    <div class="flow" style="font-size:0.85rem;">
-Any app sends: POST http://localhost:21590/api/message<br>
-&nbsp;&nbsp;{ source:"webhook", sender:"CI Bot", text:"Build failed",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;reply_to:"webhook:https://hooks.slack.com/..." }<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-MorselHub writes to push.jsonl → MCP server → Claude<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Claude calls morselhub_reply(destination="webhook",<br>
-&nbsp;&nbsp;recipient="https://hooks.slack.com/...")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-MorselHub POSTs {"text":"Claude's reply"} to the callback URL<br>
-Reply appears in Slack/Teams/Discord/your app
-    </div>
+    <img src="images/webhook.png" alt="Webhook Flow" style="width:100%; max-width:900px; border-radius:10px; margin: 16px 0;">
     <p style="color:#888;font-size:0.9rem;">Works with any system that has an incoming webhook URL — Teams, Slack, Discord, or custom apps. Include a callback URL in <span class="code">reply_to</span> to receive Claude's response.</p>
 
     <h3 style="margin-top:32px;">Example: Send a webhook with curl</h3>
@@ -393,7 +327,7 @@ curl -X POST http://localhost:21590/api/message \<br>
       </div>
       <div class="feature" style="border-color: #00ff4130;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-          <div style="width: 48px; height: 48px; border-radius: 10px; background: #0a0a0a; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔧</div>
+          <img src="images/retrocode-icon.png" alt="RetroCode" style="width: 48px; height: 48px; border-radius: 10px;">
           <div>
             <h3 style="margin: 0; color: #00ff41;">RetroCode</h3>
             <div style="font-size: 0.8rem; color: #666;">1980s Meets AI</div>
