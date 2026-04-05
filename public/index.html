@@ -58,7 +58,7 @@
   <p class="tagline">Your AI Message Hub</p>
   <p class="subtitle">Connect iMessage, RetroCode, and webhooks to Claude AI. Messages push instantly via Channels. Replies route back to the source. Every morsel counts.</p>
   <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
-  <p class="dl-note">v1.0.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
+  <p class="dl-note">v1.1.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
 </div>
 
 <div class="container">
@@ -98,6 +98,46 @@
     </div>
   </div>
 
+  <!-- What's New -->
+  <div class="section">
+    <h2>What's New in v1.1.0</h2>
+    <p style="color:#bbb;margin-bottom:20px;">Major upgrade to iMessage parsing, security, attachments, and the settings UI.</p>
+    <div class="features">
+      <div class="feature">
+        <h3>📝 Proper iMessage Text Parser</h3>
+        <p>Ported from Anthropic's official iMessage plugin. Handles attributed strings, tapbacks, URLs, and edge cases correctly.</p>
+      </div>
+      <div class="feature">
+        <h3>🛡️ AppleScript Injection Fix</h3>
+        <p>Switched to argv-based AppleScript execution. User-controlled text never enters the script source. SMS messages are filtered out automatically.</p>
+      </div>
+      <div class="feature">
+        <h3>💬 Chat Conversation Threading</h3>
+        <p>Messages now carry chat GUIDs. Claude can reply to a specific conversation thread using <span class="code">chat_guid</span> in morselhub_reply.</p>
+      </div>
+      <div class="feature">
+        <h3>🖼️ Image Attachment Support</h3>
+        <p>Receive image attachments from iMessage contacts. Claude can also send files and images back via the new <span class="code">/api/send-imessage-file</span> endpoint.</p>
+      </div>
+      <div class="feature">
+        <h3>✍️ Configurable Reply Signatures</h3>
+        <p>Replies include "Sent by Claude" by default. Customize or disable the signature in Settings.</p>
+      </div>
+      <div class="feature">
+        <h3>📏 Smart Text Chunking</h3>
+        <p>Long replies are automatically split into properly sized iMessage chunks so nothing gets truncated.</p>
+      </div>
+      <div class="feature">
+        <h3>📎 Claude Sends Files</h3>
+        <p>Claude can send files and images back to contacts via iMessage using the <span class="code">files</span> parameter in morselhub_reply.</p>
+      </div>
+      <div class="feature">
+        <h3>⚙️ Simplified Settings UI</h3>
+        <p>Redesigned settings with 4 clean tabs. Easier to configure contacts, keywords, signatures, and connections.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Story -->
   <div class="section">
     <h2>Why MorselHub?</h2>
@@ -122,7 +162,7 @@
     <div class="features">
       <div class="feature">
         <h3>💬 iMessage Bridge</h3>
-        <p>Listen for messages with a keyword trigger from approved contacts. Replies go back as iMessages automatically.</p>
+        <p>Listen for messages with a keyword trigger from approved contacts. Replies go back as iMessages automatically. Supports image attachments, reply signatures, and SMS filtering.</p>
       </div>
       <div class="feature">
         <h3>🔧 RetroCode Connector</h3>
@@ -138,7 +178,7 @@
       </div>
       <div class="feature">
         <h3>🛡️ Security First</h3>
-        <p>Strict contact allowlist. Blocked senders never reach Claude. Master contact alerts. Prompt injection protection.</p>
+        <p>Strict contact allowlist. Blocked senders never reach Claude. Master contact alerts. Prompt injection protection. Argv-based AppleScript (no injection). SMS filtering.</p>
       </div>
       <div class="feature">
         <h3>📊 Dashboard</h3>
@@ -200,7 +240,7 @@ curl -X POST http://localhost:21590/api/message \<br>
       </div>
       <div class="feature">
         <h3>Rust</h3>
-        <p>HTTP API server (tiny_http), iMessage SQLite reader (rusqlite), PTY terminal, AppleScript iMessage sender. All on port 21590.</p>
+        <p>HTTP API server (tiny_http), iMessage SQLite reader (rusqlite), PTY terminal, argv-based AppleScript iMessage sender. All on port 21590.</p>
       </div>
       <div class="feature">
         <h3>Vue 3 + TypeScript</h3>
@@ -216,7 +256,7 @@ curl -X POST http://localhost:21590/api/message \<br>
       </div>
       <div class="feature">
         <h3>Security</h3>
-        <p>Contact allowlist with exact match. Keyword filtering. Blocked sender logging. Master contact iMessage alerts. Localhost-only API.</p>
+        <p>Contact allowlist with exact match. Keyword filtering. Blocked sender logging. Master contact iMessage alerts. Localhost-only API. Argv-based AppleScript execution. SMS filtering.</p>
       </div>
     </div>
   </div>
@@ -226,7 +266,7 @@ curl -X POST http://localhost:21590/api/message \<br>
     <h2>MCP Tools</h2>
     <p style="color:#bbb;margin-bottom:16px;">MorselHub exposes 5 tools to Claude via the MCP protocol. When used with RetroCode, Claude also gets 23 additional tools for code editing, file management, and terminal control.</p>
     <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; font-size: 0.95rem;">
-      <span class="code">morselhub_reply</span><span style="color:#888;">Reply to a message. Routes to iMessage (AppleScript), webhook (HTTP POST), or feed.</span>
+      <span class="code">morselhub_reply</span><span style="color:#888;">Reply to a message. Routes to iMessage (AppleScript), webhook (HTTP POST), or feed. Accepts <span class="code">chat_guid</span> for threading and <span class="code">files</span> for attachments.</span>
       <span class="code">morselhub_get_feed</span><span style="color:#888;">Read all messages in the feed from all sources.</span>
       <span class="code">morselhub_send_imessage</span><span style="color:#888;">Proactively send an iMessage to any contact.</span>
       <span class="code">morselhub_get_settings</span><span style="color:#888;">Read MorselHub configuration — contacts, keywords, ports.</span>
@@ -254,6 +294,7 @@ curl -X POST http://localhost:21590/api/message \<br>
       <span class="code">GET</span><span style="color:#00cccc;font-family:monospace;">/api/feed</span><span style="color:#888;">Get all messages in the feed</span>
       <span class="code">POST</span><span style="color:#00cccc;font-family:monospace;">/api/message</span><span style="color:#888;">Post a message from any source (webhook entry point)</span>
       <span class="code">POST</span><span style="color:#00cccc;font-family:monospace;">/api/send-imessage</span><span style="color:#888;">Send an iMessage via AppleScript</span>
+      <span class="code">POST</span><span style="color:#00cccc;font-family:monospace;">/api/send-imessage-file</span><span style="color:#888;">Send a file or image attachment via iMessage</span>
       <span class="code">GET</span><span style="color:#00cccc;font-family:monospace;">/api/settings</span><span style="color:#888;">Read current settings</span>
       <span class="code">POST</span><span style="color:#00cccc;font-family:monospace;">/api/heartbeat</span><span style="color:#888;">Connection keepalive</span>
     </div>
