@@ -47,7 +47,7 @@
 <nav>
   <a href="/">Home</a>
   <a href="/docs">Docs</a>
-  <a href="https://github.com/senzalldev/morselhub-app">GitHub</a>
+  <a href="https://github.com/senzalldev/morselhub">GitHub</a>
   <a href="https://senzall.com">Senzall</a>
 </nav>
 
@@ -57,7 +57,7 @@
   <h1>MorselHub</h1>
   <p class="tagline">Your AI Message Hub</p>
   <p class="subtitle">Connect iMessage, RetroCode, and webhooks to Claude AI. Messages push instantly via Channels. Replies route back to the source. Every morsel counts.</p>
-  <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
+  <a href="https://github.com/senzalldev/morselhub/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
   <p class="dl-note">v1.1.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
 </div>
 
@@ -195,14 +195,6 @@
     </div>
   </div>
 
-  <!-- Architecture -->
-  <div class="section">
-    <h2>Architecture</h2>
-    <p style="color:#bbb;margin-bottom:20px;">MorselHub is a push-based message hub. Messages flow in from multiple sources, get displayed in the feed, and actionable ones push directly to Claude via MCP Channels. Claude responds using MCP tools — replies route back to the original sender.</p>
-
-    <h3>System Overview</h3>
-    <img src="images/overview.png" alt="MorselHub System Architecture" style="width:100%; max-width:900px; border-radius:10px; margin: 16px 0;">
-  </div>
 
   <!-- Connection Details -->
   <div class="section">
@@ -307,7 +299,7 @@ curl -X POST http://localhost:21590/api/message \<br>
       <li>Download and open MorselHub</li>
       <li>Grant <strong>Full Disk Access</strong> for iMessage reading</li>
       <li>Configure your iMessage address and approved contacts</li>
-      <li>Click <strong>Install MCP Server</strong> in the Setup tab</li>
+      <li>Click <strong>Install MCP Server</strong> in the Sources tab</li>
       <li>In Terminal: <span class="code">claude mcp add morselhub node ~/morselhub-mcp-server.mjs</span></li>
       <li>Start Claude: <span class="code">claude --allowedTools "mcp__morselhub__*" --dangerously-load-development-channels server:morselhub</span></li>
       <li>Send yourself an iMessage starting with "Claude:" — it arrives in MorselHub, pushes to Claude, and Claude replies via iMessage</li>
@@ -344,8 +336,8 @@ curl -X POST http://localhost:21590/api/message \<br>
   <div class="section">
     <h2>Resources</h2>
     <ul style="padding-left:24px;color:#999;font-size:1rem;line-height:2;">
-      <li><a href="https://github.com/senzalldev/morselhub-app">GitHub — Downloads & README</a></li>
-      <li><a href="https://github.com/senzalldev/morselhub-app/issues">Report an Issue</a></li>
+      <li><a href="https://github.com/senzalldev/morselhub">GitHub — Downloads & README</a></li>
+      <li><a href="https://github.com/senzalldev/morselhub/issues">Report an Issue</a></li>
       <li><a href="https://senzall.com/retrocode">RetroCode — 1980s Meets AI</a></li>
       <li><a href="https://senzall.com">Senzall</a></li>
     </ul>
@@ -366,7 +358,7 @@ curl -X POST http://localhost:21590/api/message \<br>
         </div>
         <p>Connect iMessage, RetroCode, and webhooks to Claude. Messages push instantly via Channels. Replies route back to the source.</p>
         <div style="margin-top: 12px;">
-          <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" style="font-size: 0.85rem; font-weight: 600;">Download</a>
+          <a href="https://github.com/senzalldev/morselhub/releases/latest/download/MorselHub-macOS-arm64.dmg" style="font-size: 0.85rem; font-weight: 600;">Download</a>
           <span style="color: #333; margin: 0 8px;">·</span>
           <a href="https://morselhub.com" style="font-size: 0.85rem;">Website</a>
         </div>
