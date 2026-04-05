@@ -235,16 +235,155 @@
 
     <h3 style="margin-top:32px;">🔗 Webhook Connection</h3>
     <img src="images/webhook.png" alt="Webhook Flow" style="width:100%; max-width:900px; border-radius:10px; margin: 16px 0;">
-    <p style="color:#888;font-size:0.9rem;">Works with any system that has an incoming webhook URL — Teams, Slack, Discord, or custom apps. Include a callback URL in <span class="code">reply_to</span> to receive Claude's response.</p>
+    <p style="color:#888;font-size:0.9rem;">Works with any system that can send an HTTP POST — CI pipelines, monitoring tools, Slack, Teams, Discord, or your own apps.</p>
+  </div>
 
-    <h3 style="margin-top:32px;">Example: Send a webhook with curl</h3>
+  <!-- Webhook Guide -->
+  <div class="section">
+    <h2>Webhook Guide</h2>
+    <p style="color:#bbb;margin-bottom:24px;">Webhooks let any application send messages to Claude through MorselHub. Send a POST request, Claude processes it, and optionally sends the reply back to your callback URL.</p>
+
+    <h3>How It Works</h3>
+    <ol style="padding-left:24px;color:#ccc;font-size:0.95rem;line-height:2.2;margin-bottom:24px;">
+      <li>Your app sends a POST to <span class="code">http://localhost:21590/api/message</span></li>
+      <li>MorselHub adds it to the message feed and writes to <span class="code">push.jsonl</span></li>
+      <li>The MCP server detects the new message and pushes it to Claude</li>
+      <li>Claude processes the message and calls <span class="code">morselhub_reply</span></li>
+      <li>If you included a callback URL, MorselHub POSTs Claude's reply back to your app</li>
+    </ol>
+
+    <h3>Message Format</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:12px;">POST a JSON body to <span class="code">/api/message</span> with these fields:</p>
+    <div style="display: grid; grid-template-columns: auto auto 1fr; gap: 8px 16px; font-size: 0.9rem; margin-bottom:24px;">
+      <span class="code">source</span><span style="color:#ff9500;">required</span><span style="color:#888;">Set to <span class="code">"webhook"</span> so MorselHub knows the origin</span>
+      <span class="code">sender</span><span style="color:#ff9500;">required</span><span style="color:#888;">Name of your app or service (shown in the feed)</span>
+      <span class="code">text</span><span style="color:#ff9500;">required</span><span style="color:#888;">The message for Claude</span>
+      <span class="code">reply_to</span><span style="color:#888;">optional</span><span style="color:#888;">Set to <span class="code">"webhook:https://your-app.com/callback"</span> to receive Claude's reply</span>
+    </div>
+
+    <h3>Example: Basic Message (No Reply)</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:8px;">Send a message to Claude. The response appears in MorselHub's feed but isn't sent back to your app.</p>
     <div class="flow" style="font-size:0.85rem;">
 curl -X POST http://localhost:21590/api/message \<br>
 &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
-&nbsp;&nbsp;-d '{"source":"webhook","sender":"My App",\<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text":"What is the weather?",\<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"reply_to":"webhook:https://my-app.com/callback"}'
+&nbsp;&nbsp;-d '{"source":"webhook","sender":"My App","text":"Hello Claude!"}'
     </div>
+
+    <h3 style="margin-top:24px;">Example: With Callback URL</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:8px;">Include <span class="code">reply_to</span> with your callback URL. Claude's reply is POSTed back as <span class="code">{"text":"..."}</span>.</p>
+    <div class="flow" style="font-size:0.85rem;">
+curl -X POST http://localhost:21590/api/message \<br>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+&nbsp;&nbsp;-d '{"source":"webhook","sender":"Deploy Bot",\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text":"Build failed on main. Here are the errors: ...",\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"reply_to":"webhook:https://my-app.com/claude-callback"}'
+    </div>
+
+    <h3 style="margin-top:24px;">Callback Response Format</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:8px;">When Claude replies, MorselHub POSTs to your callback URL:</p>
+    <div class="flow" style="font-size:0.85rem;">
+POST https://your-app.com/callback<br>
+Content-Type: application/json<br>
+<br>
+{"text":"Claude's response here..."}
+    </div>
+
+    <h3 style="margin-top:24px;">Use Cases</h3>
+    <div class="features" style="margin-top:12px;">
+      <div class="feature">
+        <h3>CI/CD Alerts</h3>
+        <p>Send build failures to Claude for analysis. "Build failed with error X — what's wrong and how do I fix it?"</p>
+      </div>
+      <div class="feature">
+        <h3>Monitoring</h3>
+        <p>Forward server alerts to Claude. "CPU at 95% on prod-web-3. What should I check?" Get intelligent triage suggestions.</p>
+      </div>
+      <div class="feature">
+        <h3>Slack / Teams / Discord</h3>
+        <p>Set up an outgoing webhook in your chat platform that POSTs to MorselHub. Claude responds via the callback URL back into your channel.</p>
+      </div>
+      <div class="feature">
+        <h3>Custom Apps</h3>
+        <p>Any app that can make HTTP requests can talk to Claude through MorselHub. Add AI to your internal tools with a single POST.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:24px;">Exposing Webhooks to the Internet</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:12px;">MorselHub's API runs on localhost. To receive webhooks from external services, use a tunnel:</p>
+    <div class="flow" style="font-size:0.85rem;">
+# Cloudflare Tunnel (free, no account needed)<br>
+cloudflared tunnel --url http://localhost:21590<br>
+<br>
+# ngrok<br>
+ngrok http 21590
+    </div>
+    <p style="color:#888;font-size:0.9rem;margin-top:8px;">This gives you a public URL like <span class="code">https://abc123.trycloudflare.com</span>. Use it as your webhook endpoint: <span class="code">https://abc123.trycloudflare.com/api/message</span></p>
+
+    <div style="background:#1a1000;border:1px solid #4a3000;border-radius:10px;padding:16px;margin-top:16px;color:#e0c060;font-size:0.9rem;line-height:1.7;">
+      <strong>Security note:</strong> Exposing MorselHub to the internet means anyone with the URL can send messages to Claude. Consider adding authentication in your tunnel or app, and monitor the MorselHub feed for unexpected messages.
+    </div>
+
+    <h3 style="margin-top:24px;">Example: GitHub Webhooks</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:12px;">GitHub can't POST directly to MorselHub's format, but a small middleware can bridge them. Here's a complete setup:</p>
+
+    <p style="color:#ccc;font-size:0.9rem;font-weight:600;margin-bottom:8px;">Step 1: Start a tunnel</p>
+    <div class="flow" style="font-size:0.85rem;">
+cloudflared tunnel --url http://localhost:3001
+    </div>
+
+    <p style="color:#ccc;font-size:0.9rem;font-weight:600;margin-top:16px;margin-bottom:8px;">Step 2: Run a small bridge script</p>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:8px;">Save as <span class="code">github-bridge.mjs</span> and run with <span class="code">node github-bridge.mjs</span>:</p>
+    <div class="flow" style="font-size:0.8rem;line-height:1.8;">
+import http from 'http';<br>
+<br>
+http.createServer((req, res) => {<br>
+&nbsp;&nbsp;let body = '';<br>
+&nbsp;&nbsp;req.on('data', c => body += c);<br>
+&nbsp;&nbsp;req.on('end', () => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const event = req.headers['x-github-event'];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const payload = JSON.parse(body);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let text = '';<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (event === 'push') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const commits = payload.commits?.map(c => c.message).join(', ');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = `Push to ${payload.ref}: ${commits}`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else if (event === 'issues') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = `Issue ${payload.action}: "${payload.issue.title}"`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else if (event === 'pull_request') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = `PR ${payload.action}: "${payload.pull_request.title}"`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = `GitHub ${event}: ${JSON.stringify(payload).slice(0, 200)}`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const msg = JSON.stringify({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: 'webhook', sender: 'GitHub',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text, reply_to: 'webhook:'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const r = http.request('http://localhost:21590/api/message', {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers: { 'Content-Type': 'application/json' }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;r.write(msg); r.end();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;res.writeHead(200); res.end('ok');<br>
+&nbsp;&nbsp;});<br>
+}).listen(3001, () => console.log('GitHub bridge on :3001'));
+    </div>
+
+    <p style="color:#ccc;font-size:0.9rem;font-weight:600;margin-top:16px;margin-bottom:8px;">Step 3: Configure GitHub</p>
+    <ol style="padding-left:24px;color:#888;font-size:0.9rem;line-height:2;">
+      <li>Go to your repo → Settings → Webhooks → Add webhook</li>
+      <li>Payload URL: your tunnel URL (e.g. <span class="code">https://abc123.trycloudflare.com</span>)</li>
+      <li>Content type: <span class="code">application/json</span></li>
+      <li>Select events: Pushes, Pull requests, Issues, or "Send me everything"</li>
+    </ol>
+    <p style="color:#888;font-size:0.9rem;margin-top:8px;">Now every push, PR, or issue appears in MorselHub's feed and Claude can analyze it — "Why did this build fail?" or "Review this PR."</p>
+
+    <h3 style="margin-top:24px;">Reading the Feed</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:8px;">You can also read all messages (from any source) via the feed endpoint:</p>
+    <div class="flow" style="font-size:0.85rem;">
+curl http://localhost:21590/api/feed | jq
+    </div>
+    <p style="color:#888;font-size:0.9rem;margin-top:8px;">Returns a JSON array of all messages with <span class="code">id</span>, <span class="code">source</span>, <span class="code">sender</span>, <span class="code">text</span>, <span class="code">timestamp</span>, and <span class="code">reply_to</span>.</p>
   </div>
 
   <!-- Tech Stack -->
