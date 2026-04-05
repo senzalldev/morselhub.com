@@ -59,6 +59,9 @@
   <p class="subtitle">Connect iMessage, RetroCode, and webhooks to Claude AI. Messages push instantly via Channels. Replies route back to the source. Every morsel counts.</p>
   <a href="https://github.com/senzalldev/morselhub/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
   <p class="dl-note">v1.1.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
+  <div style="margin-top: 36px;">
+    <img src="images/morselhub-main.png" alt="MorselHub main screen" style="width: 100%; max-width: 900px; border-radius: 16px; box-shadow: 0 16px 60px rgba(0,204,204,0.12), 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #222;">
+  </div>
 </div>
 
 <div class="container">
@@ -80,14 +83,20 @@
   <div class="section">
     <h2>See It In Action</h2>
     <p style="color:#bbb;margin-bottom:24px;">Send an iMessage from your phone. Claude writes BASIC code in RetroCode and renders 8-bit graphics — all automatically.</p>
+
+    <div style="margin-bottom: 24px;">
+      <img src="images/morselhub-main.png" alt="MorselHub main screen with messages feed, dashboard, and leaderboard" style="width:100%; border-radius: 12px; border: 1px solid #333;">
+      <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">MorselHub v1.1.0 — messages, dashboard, and leaderboard</p>
+    </div>
+
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
       <div>
-        <img src="images/retrocode-cat.png" alt="Claude drew a cat in BASIC via iMessage" style="width:100%; border-radius: 12px; border: 1px solid #333;">
-        <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">"Draw a cat" → Claude writes BASIC → 8-bit cat appears</p>
+        <img src="images/retrocode-frog.png" alt="RetroCode BASIC mode with frog in GFX display and MorselHub chat" style="width:100%; border-radius: 12px; border: 1px solid #333;">
+        <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">Ask Claude to draw a frog via MorselHub — BASIC code + 8-bit graphics</p>
       </div>
       <div>
-        <img src="images/retrocode-house.png" alt="Claude drew a house with tree via iMessage" style="width:100%; border-radius: 12px; border: 1px solid #333;">
-        <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">"Draw a house with a tree" → sent via iMessage from phone</p>
+        <img src="images/claude-terminal.png" alt="Claude Code terminal calling MCP tools" style="width:100%; border-radius: 12px; border: 1px solid #333;">
+        <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">Claude Code calling RetroCode MCP tools to draw the frog</p>
       </div>
     </div>
     <p style="color:#888;font-size:0.9rem;margin-top:16px;text-align:center;">Phone → iMessage → MorselHub → Claude → RetroCode editor + GFX display. Every morsel counts.</p>
@@ -95,6 +104,22 @@
     <div style="margin-top:24px;">
       <img src="images/imessage-mario.png" alt="Claude answering Super Mario Bros question via iMessage" style="width:100%; max-width:700px; border-radius: 12px; border: 1px solid #333; display:block; margin:0 auto;">
       <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">Ask Claude anything via iMessage — "How many Super Mario Bros games are there?" → instant detailed reply</p>
+    </div>
+  </div>
+
+  <!-- MorselHub + RetroCode -->
+  <div class="section">
+    <h2>MorselHub + RetroCode</h2>
+    <p style="color:#bbb;margin-bottom:24px;">RetroCode supports multiple programming modes — all controllable by Claude through MorselHub's MCP bridge.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <img src="images/retrocode-asm.png" alt="RetroCode Assembly mode with MorselHub chat" style="width:100%; border-radius: 12px; border: 1px solid #333;">
+        <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">Assembly mode — write 6502-style code with AI assistance</p>
+      </div>
+      <div>
+        <img src="images/retrocode-python.png" alt="RetroCode Python mode running a system dialog" style="width:100%; border-radius: 12px; border: 1px solid #333;">
+        <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">Python mode — Claude wrote and ran a native macOS dialog</p>
+      </div>
     </div>
   </div>
 
