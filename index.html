@@ -56,9 +56,9 @@
   <img src="images/morselhub-icon.png" alt="MorselHub" class="hero-icon">
   <h1>MorselHub</h1>
   <p class="tagline">Your AI Message Hub</p>
-  <p class="subtitle">Connect iMessage, RetroCode, and webhooks to Claude AI. Messages push instantly via Channels. Replies route back to the source. Every morsel counts.</p>
+  <p class="subtitle">Your universal AI broker. Connect iMessage, RetroCode, and webhooks to Claude, Ollama, or GitHub Copilot. Switch AI providers per-message. Every morsel counts.</p>
   <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
-  <p class="dl-note">v1.0.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
+  <p class="dl-note">v1.2.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
 </div>
 
 <div class="container">
@@ -70,7 +70,7 @@
       Senzall loves working with <em>Agentic AI</em> so much he wanted a way to talk to it anytime — using retro tools and modern gadgets alike. Ever since that first <em>TRS-80</em> in the 1980s and learning Assembly, Pascal, and many other languages over the years, Senzall has been sharing his love of all things tech with friends, family, and strangers.
     </p>
     <p class="story" style="margin-top:16px;">
-      MorselHub is a growing set of connectors you can use with <em>Claude</em> — and soon other AI platforms — to have safe and exciting interactions. Every morsel of a message, every small bit of an idea, gets delivered to your AI assistant instantly. <em>Every morsel counts.</em>
+      MorselHub is your AI message hub — connect once, use any AI. <em>Claude</em> via MCP channels, <em>Ollama</em> for local AI, or <em>GitHub Copilot</em> for access to GPT-4.1, Gemini, and more. Text <em>Claude: hello</em> via iMessage to reach Claude, <em>Llama: hello</em> for local Ollama. Every morsel of a message gets delivered to the right AI. <em>Every morsel counts.</em>
     </p>
   </div>
 
@@ -78,11 +78,15 @@
   <div class="section">
     <h2>How It Works</h2>
     <div class="flow">
-iMessage ──→ MorselHub ──→ MCP Channel ──→ Claude Code<br>
-RetroCode ──→ &nbsp; &nbsp;↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;↓<br>
-Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Claude's Reply
+iMessage ──┐ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ┌─→ Claude (MCP Channel)<br>
+RetroCode ─┼──→ MorselHub ──┼─→ Ollama (Local AI)<br>
+Webhooks ──┤ &nbsp; (AI Broker) &nbsp;└─→ Copilot (GitHub Models)<br>
+Hub Chat ──┘
     </div>
-    <p style="color:#999;">Messages arrive from any source. MorselHub displays them in a live feed, pushes actionable ones to Claude via the MCP Channel protocol, and routes Claude's replies back to the original sender — including iMessage replies via AppleScript.</p>
+    <p style="color:#999;">Messages arrive from any source. MorselHub routes them to the AI of your choice — Claude via MCP channels, Ollama for local processing, or GitHub Copilot for GPT-4/Gemini models. Replies route back to the original sender automatically.</p>
+    <div style="margin-top: 24px;">
+      <img src="images/dashboard.png" alt="MorselHub Dashboard" style="width: 100%; border-radius: 10px; border: 1px solid #222; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+    </div>
   </div>
 
   <!-- Features -->
@@ -90,37 +94,41 @@ Webhooks ──→ &nbsp; &nbsp;└── Message Feed &nbsp; &nbsp;←── Cl
     <h2>Features</h2>
     <div class="features">
       <div class="feature">
+        <h3>🧠 Multi-AI Broker</h3>
+        <p>Claude, Ollama, and GitHub Copilot in one hub. Switch providers from the dashboard or per-message. Test any provider with one click.</p>
+      </div>
+      <div class="feature">
         <h3>💬 iMessage Bridge</h3>
-        <p>Listen for messages with a keyword trigger from approved contacts. Replies go back as iMessages automatically.</p>
+        <p>Text "Claude: hello" or "Llama: hello" from your phone. Keyword routing sends each message to the right AI. Replies come back as iMessages.</p>
       </div>
       <div class="feature">
-        <h3>🔧 RetroCode Connector</h3>
-        <p>Bridge to RetroCode's chat panel. Code in Assembly or BASIC while chatting with Claude.</p>
+        <h3>🦙 Local AI via Ollama</h3>
+        <p>Run AI locally with Ollama — no internet, no API keys, no token charges. Install from ollama.com, pull a model, select Ollama as your provider.</p>
       </div>
       <div class="feature">
-        <h3>🔗 Webhook Receiver</h3>
-        <p>POST to /api/message from any app — CI pipelines, monitoring alerts, custom integrations.</p>
+        <h3>🔧 RetroCode Integration</h3>
+        <p>23 MCP tools auto-discovered from RetroCode's API manifest. AI writes code, runs programs, manages the editor — all through MorselHub.</p>
+      </div>
+      <div class="feature">
+        <h3>🔗 Webhook Endpoints</h3>
+        <p>Per-provider webhook URLs: /api/webhook/claude, /api/webhook/ollama, /api/webhook/copilot. Any app can connect.</p>
       </div>
       <div class="feature">
         <h3>⚡ Instant Push</h3>
-        <p>Messages push to Claude instantly via MCP Channels using the official @modelcontextprotocol/sdk.</p>
+        <p>Claude messages push instantly via MCP Channels. iMessage polling runs in Rust — works when minimized. No webview dependency.</p>
       </div>
       <div class="feature">
         <h3>🛡️ Security First</h3>
-        <p>Strict contact allowlist. Blocked senders never reach Claude. Master contact alerts. Prompt injection protection.</p>
+        <p>Contact allowlist, keyword filtering, SMS/spoofing protection. Blocked senders never reach AI. Master contact alerts.</p>
       </div>
       <div class="feature">
-        <h3>📊 Dashboard</h3>
-        <p>Stats grid, contact leaderboard, activity log (last 100 entries persisted to JSON).</p>
+        <h3>📊 Full Dashboard</h3>
+        <p>AI provider status, message counters, sources, leaderboard, activity log. Full-page navigation — Dashboard, Messages, AI, Sources, Contacts, Settings.</p>
       </div>
-      <div class="feature">
-        <h3>🎨 6 Themes</h3>
-        <p>Default, Dark, Standard, Light, RPG, and High Contrast — same themes as RetroCode.</p>
-      </div>
-      <div class="feature">
-        <h3>🔔 Master Alerts</h3>
-        <p>Designate a master contact who receives iMessage alerts when blocked senders try or non-master contacts message Claude.</p>
-      </div>
+    </div>
+    <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <img src="images/ai.png" alt="AI Providers" style="width: 100%; border-radius: 10px; border: 1px solid #222;">
+      <img src="images/sources.png" alt="Sources" style="width: 100%; border-radius: 10px; border: 1px solid #222;">
     </div>
   </div>
 
