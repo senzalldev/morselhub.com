@@ -3,192 +3,455 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MorselHub — Your AI Message Hub</title>
-  <meta name="description" content="MorselHub connects iMessage, RetroCode, and webhooks to Claude AI. Every morsel counts.">
+  <title>MorselHub v1.2.0 — Universal AI Message Hub | Connect iMessage, RetroCode & Webhooks to AI</title>
+  <meta name="description" content="MorselHub is a universal AI broker connecting iMessage, RetroCode IDE, and webhooks to Claude (MCP Channels), Ollama (local AI), and GitHub Copilot. Switch providers per-message. macOS app, free.">
+  <meta name="keywords" content="MorselHub, AI broker, iMessage AI, Claude MCP, Ollama, GitHub Copilot, RetroCode, webhook AI, macOS AI app, MCP Channels">
+  <meta property="og:title" content="MorselHub — Universal AI Message Hub">
+  <meta property="og:description" content="Connect iMessage, RetroCode, and webhooks to Claude, Ollama, or GitHub Copilot. Your universal AI broker for macOS.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/morselhub-icon.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MorselHub — Universal AI Message Hub">
+  <meta name="twitter:description" content="Connect iMessage, RetroCode, and webhooks to Claude, Ollama, or GitHub Copilot.">
   <link rel="icon" href="images/morselhub-icon.png" type="image/png">
+  <link rel="canonical" href="https://morselhub.com">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, system-ui, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.7; }
-    a { color: #00cccc; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .hero { text-align: center; padding: 80px 20px 60px; background: linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 100%); }
-    .hero-icon { width: 200px; height: 200px; border-radius: 36px; margin-bottom: 28px; box-shadow: 0 20px 60px rgba(0,204,204,0.15); }
-    .hero h1 { font-size: 3rem; font-weight: 800; color: #00cccc; text-shadow: 0 0 40px rgba(0,204,204,0.3); margin-bottom: 12px; }
-    .hero .tagline { font-size: 1.4rem; color: #aaa; margin-bottom: 12px; }
-    .hero .subtitle { font-size: 1.05rem; color: #777; max-width: 650px; margin: 0 auto 36px; line-height: 1.8; }
-    .dl-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 12px; font-weight: 700; background: #00cccc; color: #000; font-size: 1.1rem; transition: all 0.2s; }
-    .dl-btn:hover { background: #00eedd; text-decoration: none; transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,204,204,0.3); }
-    .dl-note { font-size: 0.85rem; color: #555; margin-top: 16px; }
-    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
-    .section { padding: 60px 0; border-top: 1px solid #1a1a1a; }
-    .section h2 { font-size: 2rem; font-weight: 700; color: #00cccc; margin-bottom: 24px; }
-    .section h3 { font-size: 1.2rem; color: #e0e0e0; margin: 16px 0 8px; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-    .feature { background: #141414; border: 1px solid #222; border-radius: 14px; padding: 24px; transition: border-color 0.2s; }
-    .feature:hover { border-color: #00cccc40; }
-    .feature h3 { color: #00cccc; margin: 0 0 8px; font-size: 1.05rem; }
-    .feature p { color: #888; font-size: 0.95rem; }
-    .flow { background: #0d0d0d; border: 1px solid #222; border-radius: 10px; padding: 24px; font-family: 'SF Mono', monospace; font-size: 0.95rem; color: #00cccc; margin: 20px 0; line-height: 2; }
-    .story { font-size: 1.1rem; color: #bbb; line-height: 1.9; }
-    .story em { color: #00cccc; font-style: normal; }
-    .code { background: #0d0d0d; color: #00cccc; padding: 3px 10px; border-radius: 5px; font-family: 'SF Mono', monospace; font-size: 0.9rem; }
-    .footer { text-align: center; padding: 50px 20px; border-top: 1px solid #1a1a1a; color: #444; font-size: 0.85rem; }
-    .footer a { color: #00cccc; }
-    .badge { display: inline-block; background: #00cccc; color: #000; padding: 3px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; }
-    nav { display: flex; justify-content: center; gap: 24px; padding: 16px; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; }
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 2rem; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    a { color: #00cccc; text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #00eedd; text-decoration: underline; }
+
+    /* Navigation */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; padding: 0 32px; height: 56px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; color: #00cccc; }
+    .nav-brand img { width: 28px; height: 28px; border-radius: 6px; }
+    .nav-links { display: flex; gap: 28px; font-size: 0.9rem; }
+    .nav-links a { color: #999; }
+    .nav-links a:hover { color: #00cccc; text-decoration: none; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 100px 20px 80px; background: radial-gradient(ellipse at 50% 0%, rgba(0,204,204,0.06) 0%, transparent 70%); position: relative; }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #1a1a1a, transparent); }
+    .hero-icon { width: 140px; height: 140px; border-radius: 32px; margin-bottom: 32px; box-shadow: 0 20px 60px rgba(0,204,204,0.12); }
+    .hero h1 { font-size: 3.2rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero h1 span { color: #00cccc; }
+    .hero .tagline { font-size: 1.35rem; color: #999; margin-bottom: 12px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .hero .subtitle { font-size: 1.05rem; color: #666; max-width: 640px; margin: 0 auto 40px; line-height: 1.8; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap; }
+    .dl-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; border-radius: 12px; font-weight: 700; background: #00cccc; color: #000; font-size: 1.1rem; transition: all 0.25s; border: none; cursor: pointer; }
+    .dl-btn:hover { background: #00eedd; text-decoration: none; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,204,204,0.25); }
+    .dl-btn svg { width: 20px; height: 20px; }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; padding: 16px 32px; border-radius: 12px; font-weight: 600; background: transparent; color: #00cccc; font-size: 1rem; border: 1px solid #00cccc40; transition: all 0.25s; }
+    .btn-secondary:hover { background: #00cccc10; text-decoration: none; border-color: #00cccc; }
+    .dl-note { font-size: 0.85rem; color: #555; margin-top: 20px; }
+
+    /* Layout */
+    .container { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 80px 0; border-top: 1px solid #1a1a1a; }
+    .section-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #00cccc; margin-bottom: 12px; }
+    .section h2 { font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 16px; letter-spacing: -0.01em; }
+    .section .section-desc { font-size: 1.1rem; color: #888; margin-bottom: 40px; max-width: 640px; }
+
+    /* Features Grid */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature { background: #111; border: 1px solid #1e1e1e; border-radius: 16px; padding: 28px; transition: all 0.25s; }
+    .feature:hover { border-color: #00cccc30; background: #131313; transform: translateY(-2px); }
+    .feature-icon { width: 44px; height: 44px; border-radius: 10px; background: #00cccc10; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: #00cccc; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature h3 { color: #e0e0e0; margin: 0 0 8px; font-size: 1.05rem; font-weight: 600; }
+    .feature p { color: #777; font-size: 0.92rem; line-height: 1.6; }
+
+    /* Flow Diagram */
+    .flow-container { display: flex; gap: 40px; align-items: flex-start; margin-top: 32px; }
+    .flow-diagram { flex: 1; background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 14px; padding: 32px; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 0.88rem; color: #00cccc; line-height: 2.2; white-space: pre; overflow-x: auto; }
+    .flow-text { flex: 1; }
+    .flow-text p { color: #999; font-size: 1rem; line-height: 1.8; margin-bottom: 16px; }
+    .flow-text strong { color: #e0e0e0; }
+
+    /* Providers */
+    .providers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .provider-card { background: #111; border: 1px solid #1e1e1e; border-radius: 16px; padding: 28px; text-align: center; transition: all 0.25s; }
+    .provider-card:hover { border-color: #00cccc30; transform: translateY(-2px); }
+    .provider-card .provider-icon { width: 56px; height: 56px; border-radius: 14px; background: #00cccc08; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .provider-card .provider-icon svg { width: 28px; height: 28px; stroke: #00cccc; fill: none; stroke-width: 1.5; }
+    .provider-card h3 { color: #e0e0e0; font-size: 1.15rem; margin-bottom: 4px; }
+    .provider-card .provider-sub { color: #00cccc; font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; }
+    .provider-card p { color: #777; font-size: 0.9rem; line-height: 1.6; }
+    .provider-card ul { list-style: none; text-align: left; margin-top: 12px; }
+    .provider-card ul li { color: #888; font-size: 0.88rem; padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+    .provider-card ul li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: #00cccc; flex-shrink: 0; }
+
+    /* RetroCode Section */
+    .retrocode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; margin-top: 32px; }
+    .retrocode-info h3 { color: #e0e0e0; font-size: 1.15rem; margin-bottom: 8px; }
+    .retrocode-info p { color: #888; font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+    .retrocode-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .stat-box { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 10px; padding: 16px; text-align: center; }
+    .stat-box .stat-num { font-size: 1.8rem; font-weight: 800; color: #00cccc; }
+    .stat-box .stat-label { font-size: 0.8rem; color: #666; margin-top: 4px; }
+
+    /* Screenshots */
+    .screenshots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
+    .screenshot { border-radius: 12px; border: 1px solid #1e1e1e; overflow: hidden; transition: all 0.3s; }
+    .screenshot:hover { border-color: #00cccc30; transform: scale(1.01); }
+    .screenshot img { width: 100%; display: block; }
+    .screenshot-label { padding: 12px 16px; background: #111; font-size: 0.85rem; color: #888; }
+    .screenshot-wide { grid-column: 1 / -1; }
+
+    /* Install Section */
+    .install-card { background: linear-gradient(135deg, #0d1a1a 0%, #0d0d0d 100%); border: 1px solid #00cccc20; border-radius: 20px; padding: 48px; text-align: center; margin-top: 32px; }
+    .install-card h3 { color: #fff; font-size: 1.6rem; margin-bottom: 12px; }
+    .install-card p { color: #888; font-size: 1rem; margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .install-steps { max-width: 560px; margin: 0 auto; text-align: left; }
+    .install-steps ol { padding-left: 24px; color: #ccc; font-size: 0.95rem; line-height: 2.4; }
+    .code { background: #0d0d0d; color: #00cccc; padding: 3px 10px; border-radius: 5px; font-family: 'SF Mono', monospace; font-size: 0.88rem; }
+
+    /* Warning */
+    .warning-box { background: #1a1000; border: 1px solid #4a3000; border-radius: 12px; padding: 24px; color: #e0c060; font-size: 0.92rem; line-height: 1.7; margin-top: 32px; }
+    .warning-box p { margin-bottom: 10px; }
+    .warning-box p:last-child { margin-bottom: 0; }
+
+    /* Footer */
+    .footer { text-align: center; padding: 60px 20px 40px; border-top: 1px solid #1a1a1a; }
+    .footer-brand { font-size: 1.1rem; font-weight: 700; color: #00cccc; margin-bottom: 16px; }
+    .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 24px; flex-wrap: wrap; }
+    .footer-links a { color: #666; font-size: 0.9rem; }
+    .footer-links a:hover { color: #00cccc; }
+    .footer-copy { color: #444; font-size: 0.8rem; }
+
+    .badge { display: inline-block; background: #00cccc; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; vertical-align: middle; margin-left: 6px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .hero .tagline { font-size: 1.1rem; }
       .features { grid-template-columns: 1fr; }
+      .providers { grid-template-columns: 1fr; }
+      .flow-container { flex-direction: column; }
+      .retrocode-grid { grid-template-columns: 1fr; }
+      .screenshots-grid { grid-template-columns: 1fr; }
+      .screenshot-wide { grid-column: auto; }
+      .nav-links { gap: 16px; }
+      nav { padding: 0 16px; }
+      .install-card { padding: 32px 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero-actions { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
+<!-- Navigation -->
 <nav>
-  <a href="/">Home</a>
-  <a href="/docs">Docs</a>
-  <a href="https://github.com/senzalldev/morselhub-app">GitHub</a>
-  <a href="https://senzall.com">Senzall</a>
+  <a href="/" class="nav-brand">
+    <img src="images/morselhub-icon.png" alt="MorselHub" width="28" height="28">
+    MorselHub
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#providers">AI Providers</a>
+    <a href="#retrocode">RetroCode</a>
+    <a href="#screenshots">Screenshots</a>
+    <a href="#download">Download</a>
+    <a href="https://github.com/senzalldev/morselhub-app">GitHub</a>
+  </div>
 </nav>
 
 <!-- Hero -->
-<div class="hero">
-  <img src="images/morselhub-icon.png" alt="MorselHub" class="hero-icon">
-  <h1>MorselHub</h1>
-  <p class="tagline">Your AI Message Hub</p>
-  <p class="subtitle">Your universal AI broker. Connect iMessage, RetroCode, and webhooks to Claude, Ollama, or GitHub Copilot. Switch AI providers per-message. Every morsel counts.</p>
-  <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">Download for macOS</a>
-  <p class="dl-note">v1.2.0 · macOS 12+ (Apple Silicon) · Free · Signed & Notarized</p>
-</div>
+<header class="hero">
+  <img src="images/morselhub-icon.png" alt="MorselHub icon" class="hero-icon" width="140" height="140">
+  <h1>Your Universal <span>AI Message Hub</span></h1>
+  <p class="tagline">Connect everything to AI. Switch providers per-message.</p>
+  <p class="subtitle">MorselHub bridges iMessage, RetroCode IDE, and webhooks to Claude, Ollama, and GitHub Copilot. Route any message to any AI provider — automatically. Every morsel counts.</p>
+  <div class="hero-actions">
+    <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download for macOS
+    </a>
+    <a href="https://github.com/senzalldev/morselhub-app" class="btn-secondary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      View on GitHub
+    </a>
+  </div>
+  <p class="dl-note">v1.2.0 &middot; macOS 12+ (Apple Silicon) &middot; Free &middot; Signed &amp; Notarized</p>
+</header>
 
 <div class="container">
 
-  <!-- Story -->
-  <div class="section">
-    <h2>Why MorselHub?</h2>
-    <p class="story">
-      Senzall loves working with <em>Agentic AI</em> so much he wanted a way to talk to it anytime — using retro tools and modern gadgets alike. Ever since that first <em>TRS-80</em> in the 1980s and learning Assembly, Pascal, and many other languages over the years, Senzall has been sharing his love of all things tech with friends, family, and strangers.
-    </p>
-    <p class="story" style="margin-top:16px;">
-      MorselHub is your AI message hub — connect once, use any AI. <em>Claude</em> via MCP channels, <em>Ollama</em> for local AI, or <em>GitHub Copilot</em> for access to GPT-4.1, Gemini, and more. Text <em>Claude: hello</em> via iMessage to reach Claude, <em>Llama: hello</em> for local Ollama. Every morsel of a message gets delivered to the right AI. <em>Every morsel counts.</em>
-    </p>
-  </div>
+  <!-- Features -->
+  <section class="section" id="features">
+    <p class="section-label">Features</p>
+    <h2>Everything You Need in One Hub</h2>
+    <p class="section-desc">MorselHub is a universal AI broker that connects your message sources to your AI providers, all from a native macOS app.</p>
+    <div class="features">
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>iMessage Bridge</h3>
+        <p>Text any AI from your phone. Send "Claude: hello" or "Llama: explain gravity" via iMessage. Keyword routing delivers each message to the right provider. Replies come back as iMessages.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>RetroCode IDE Integration</h3>
+        <p>23 MCP tools auto-discovered from RetroCode. AI edits code, runs programs, manages tabs, reads files, and controls the terminal across 26 languages.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <h3>Multi-Provider AI</h3>
+        <p>Claude via MCP Channels, Ollama for local AI, GitHub Copilot for GPT-4o and Claude 3.5 Sonnet. Switch providers from the dashboard or per-message with keywords.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        </div>
+        <h3>MCP Channels</h3>
+        <p>Push-based messaging with Claude. Messages from iMessage and RetroCode push instantly to Claude via MCP server channels. No polling, no delays.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <h3>Webhook Support</h3>
+        <p>Per-provider webhook endpoints let any application connect. POST to /api/webhook/claude, /ollama, or /copilot. Integrate CI/CD, bots, or custom tools.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3>Full Dashboard</h3>
+        <p>Real-time AI status, message counters, source activity, leaderboard, and logs. Navigate between Dashboard, Messages, AI Providers, Sources, Contacts, and Settings.</p>
+      </div>
+
+    </div>
+  </section>
 
   <!-- How It Works -->
-  <div class="section">
+  <section class="section" id="how-it-works">
+    <p class="section-label">Architecture</p>
     <h2>How It Works</h2>
-    <div class="flow">
-iMessage ──┐ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ┌─→ Claude (MCP Channel)<br>
-RetroCode ─┼──→ MorselHub ──┼─→ Ollama (Local AI)<br>
-Webhooks ──┤ &nbsp; (AI Broker) &nbsp;└─→ Copilot (GitHub Models)<br>
-Hub Chat ──┘
-    </div>
-    <p style="color:#999;">Messages arrive from any source. MorselHub routes them to the AI of your choice — Claude via MCP channels, Ollama for local processing, or GitHub Copilot for GPT-4/Gemini models. Replies route back to the original sender automatically.</p>
-    <div style="margin-top: 24px;">
-      <img src="images/dashboard.png" alt="MorselHub Dashboard" style="width: 100%; border-radius: 10px; border: 1px solid #222; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
-    </div>
-  </div>
+    <p class="section-desc">MorselHub sits between your message sources and AI providers, routing each message to the right destination based on keywords or your default provider setting.</p>
+    <div class="flow-container">
+      <div class="flow-diagram">
+                    SOURCES                          PROVIDERS
 
-  <!-- Features -->
-  <div class="section">
-    <h2>Features</h2>
-    <div class="features">
-      <div class="feature">
-        <h3>🧠 Multi-AI Broker</h3>
-        <p>Claude, Ollama, and GitHub Copilot in one hub. Switch providers from the dashboard or per-message. Test any provider with one click.</p>
-      </div>
-      <div class="feature">
-        <h3>💬 iMessage Bridge</h3>
-        <p>Text "Claude: hello" or "Llama: hello" from your phone. Keyword routing sends each message to the right AI. Replies come back as iMessages.</p>
-      </div>
-      <div class="feature">
-        <h3>🦙 Local AI via Ollama</h3>
-        <p>Run AI locally with Ollama — no internet, no API keys, no token charges. Install from ollama.com, pull a model, select Ollama as your provider.</p>
-      </div>
-      <div class="feature">
-        <h3>🔧 RetroCode Integration</h3>
-        <p>23 MCP tools auto-discovered from RetroCode's API manifest. AI writes code, runs programs, manages the editor — all through MorselHub.</p>
-      </div>
-      <div class="feature">
-        <h3>🔗 Webhook Endpoints</h3>
-        <p>Per-provider webhook URLs: /api/webhook/claude, /api/webhook/ollama, /api/webhook/copilot. Any app can connect.</p>
-      </div>
-      <div class="feature">
-        <h3>⚡ Instant Push</h3>
-        <p>Claude messages push instantly via MCP Channels. iMessage polling runs in Rust — works when minimized. No webview dependency.</p>
-      </div>
-      <div class="feature">
-        <h3>🛡️ Security First</h3>
-        <p>Contact allowlist, keyword filtering, SMS/spoofing protection. Blocked senders never reach AI. Master contact alerts.</p>
-      </div>
-      <div class="feature">
-        <h3>📊 Full Dashboard</h3>
-        <p>AI provider status, message counters, sources, leaderboard, activity log. Full-page navigation — Dashboard, Messages, AI, Sources, Contacts, Settings.</p>
+              iMessage ----+                +----> Claude
+                           |                |      (MCP Channels)
+            RetroCode -----+--- MorselHub --+
+              (IDE)        |   (AI Broker)  +----> Ollama
+                           |                |      (Local AI)
+             Webhooks -----+                |
+                           |                +----> Copilot
+            Hub Chat  -----+                       (GitHub Models)
+
+                     Push-based architecture
+                     Keyword routing per-message
+                     Replies return to original sender</div>
+      <div class="flow-text">
+        <p><strong>Message sources</strong> feed into MorselHub from multiple channels: iMessage reads your chat database in real-time, RetroCode connects via its API manifest, webhooks accept HTTP POST, and the built-in Hub Chat provides a direct interface.</p>
+        <p><strong>Intelligent routing</strong> directs each message to the correct AI. Prefix with "Claude:", "Llama:", or "Copilot:" to override the default. Replies are automatically sent back through the original channel.</p>
+        <p><strong>Push architecture</strong> means Claude receives messages instantly via MCP Channels. iMessage polling is handled by a native Rust binary that runs efficiently in the background.</p>
       </div>
     </div>
-    <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-      <img src="images/ai.png" alt="AI Providers" style="width: 100%; border-radius: 10px; border: 1px solid #222;">
-      <img src="images/sources.png" alt="Sources" style="width: 100%; border-radius: 10px; border: 1px solid #222;">
+  </section>
+
+  <!-- AI Providers -->
+  <section class="section" id="providers">
+    <p class="section-label">AI Providers</p>
+    <h2>Three Providers, One Hub</h2>
+    <p class="section-desc">Switch between cloud and local AI on a per-message basis. Each provider has its own strengths.</p>
+    <div class="providers">
+
+      <div class="provider-card">
+        <div class="provider-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Claude <span class="badge">MCP</span></h3>
+        <p class="provider-sub">Anthropic &middot; MCP Channels</p>
+        <p>Push-based messaging through MCP Channels. Claude receives messages instantly and can call 23+ RetroCode tools, send iMessages, and read feeds.</p>
+        <ul>
+          <li>Instant push delivery via MCP server</li>
+          <li>Full tool access (RetroCode, iMessage, feed)</li>
+          <li>Context-aware, multi-turn conversations</li>
+          <li>File attachments and image analysis</li>
+        </ul>
+      </div>
+
+      <div class="provider-card">
+        <div class="provider-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4"/><circle cx="12" cy="12" r="4"/><path d="M12 8v0M12 16v0"/></svg>
+        </div>
+        <h3>Ollama</h3>
+        <p class="provider-sub">Local &middot; Private &middot; Free</p>
+        <p>Run AI entirely on your machine. No internet, no API keys, no token charges. Pull any model from the Ollama library and start chatting.</p>
+        <ul>
+          <li>100% local and private</li>
+          <li>No API keys or subscriptions</li>
+          <li>Llama, Mistral, Gemma, and more</li>
+          <li>Automatic model detection</li>
+        </ul>
+      </div>
+
+      <div class="provider-card">
+        <div class="provider-icon">
+          <svg viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        </div>
+        <h3>GitHub Copilot</h3>
+        <p class="provider-sub">GPT-4o &middot; Claude 3.5 Sonnet &middot; Gemini</p>
+        <p>Access multiple frontier models through your GitHub Copilot subscription. Switch between GPT-4o, Claude 3.5 Sonnet, and Gemini with model selection.</p>
+        <ul>
+          <li>Multiple model options</li>
+          <li>Uses existing GitHub subscription</li>
+          <li>Webhook and keyword routing</li>
+          <li>Dashboard model switching</li>
+        </ul>
+      </div>
+
     </div>
-  </div>
+  </section>
 
-  <!-- Quick Start -->
-  <div class="section">
-    <h2>Quick Start</h2>
-    <ol style="padding-left:24px;color:#ccc;font-size:1.05rem;line-height:2.4;">
-      <li>Download and open MorselHub</li>
-      <li>Grant <strong>Full Disk Access</strong> for iMessage reading</li>
-      <li>Configure your iMessage address and approved contacts</li>
-      <li>Click <strong>Install MCP Server</strong> in the Setup tab</li>
-      <li>In Terminal: <span class="code">claude mcp add morselhub node ~/morselhub-mcp-server.mjs</span></li>
-      <li>Start Claude: <span class="code">claude --dangerously-load-development-channels server:morselhub</span></li>
-      <li>Send yourself an iMessage starting with "Claude:" — it arrives in MorselHub, pushes to Claude, and Claude replies via iMessage</li>
-    </ol>
-  </div>
+  <!-- RetroCode -->
+  <section class="section" id="retrocode">
+    <p class="section-label">IDE Integration</p>
+    <h2>RetroCode + MorselHub</h2>
+    <p class="section-desc">AI-powered coding through a retro-inspired IDE. MorselHub auto-discovers RetroCode's API manifest and exposes 23 MCP tools to Claude.</p>
+    <div class="retrocode-grid">
+      <div class="retrocode-info">
+        <h3>23 MCP Tools, Auto-Discovered</h3>
+        <p>When RetroCode is running, MorselHub detects its API manifest and registers all tools with Claude. AI can read and write code, run programs, manage terminals, switch languages, and more.</p>
 
-  <!-- Permissions & Security -->
-  <div class="section">
-    <h2>Permissions & Security</h2>
+        <h3>Code, Run, Debug</h3>
+        <p>Ask Claude to write a program and it appears in RetroCode's editor. Run it with a single tool call. View terminal output. Debug and iterate in real-time through iMessage, webhooks, or the Hub Chat.</p>
 
-    <h3>Full Disk Access (macOS)</h3>
-    <p style="color:#bbb;margin-bottom:12px;">MorselHub reads your iMessage database (<span class="code">~/Library/Messages/chat.db</span>) to detect incoming messages. macOS requires Full Disk Access for this.</p>
-    <ol style="padding-left:24px;color:#ccc;font-size:0.95rem;line-height:2;">
-      <li>Open <strong>System Settings</strong> > <strong>Privacy & Security</strong> > <strong>Full Disk Access</strong></li>
-      <li>Click <strong>+</strong> and add <strong>MorselHub.app</strong> (from your Applications folder)</li>
-      <li>Toggle it <strong>on</strong></li>
-      <li>Restart MorselHub</li>
-    </ol>
-    <p style="color:#888;font-size:0.9rem;margin-top:8px;">During development, add <strong>Terminal.app</strong> instead (the dev binary inherits its permissions).</p>
+        <h3>26 Languages</h3>
+        <p>From Assembly and BASIC to Python, JavaScript, Rust, Go, and more. RetroCode supports syntax highlighting, execution, and language-specific features for each one.</p>
 
-    <h3 style="margin-top:24px;">Contact Allowlist</h3>
-    <p style="color:#bbb;margin-bottom:8px;">Only messages from people you explicitly approve will ever reach Claude. Unknown senders are blocked and logged. You can designate a master contact to receive iMessage alerts about security events.</p>
-
-    <h3 style="margin-top:24px;">⚠️ Important Warnings</h3>
-    <div style="background:#1a1000;border:1px solid #4a3000;border-radius:10px;padding:20px;margin-top:12px;color:#e0c060;font-size:0.95rem;line-height:1.7;">
-      <p><strong>Be very careful who you add to your contact list.</strong> Anyone on the list can send messages that Claude will act on — including running commands, editing files, and accessing your computer via Claude Code's tools.</p>
-      <p style="margin-top:12px;"><strong>Token usage:</strong> Every message forwarded to Claude consumes tokens from your Claude subscription. Frequent or large messages will increase your token usage.</p>
-      <p style="margin-top:12px;"><strong>Computer access:</strong> Claude Code has access to your local files, terminal, and development tools. Messages from approved contacts can trigger Claude to take actions on your machine.</p>
-      <p style="margin-top:12px;"><strong>Use at your own risk.</strong> MorselHub is provided as-is, without warranty. The developers are not responsible for any actions taken by Claude in response to forwarded messages, any unauthorized access, data loss, or token charges. You are solely responsible for managing your contact list and monitoring Claude's activity.</p>
+        <div class="retrocode-stats">
+          <div class="stat-box">
+            <div class="stat-num">23</div>
+            <div class="stat-label">MCP Tools</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">26</div>
+            <div class="stat-label">Languages</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">0</div>
+            <div class="stat-label">Config Needed</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">Auto</div>
+            <div class="stat-label">Discovery</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="screenshot" style="margin-bottom:16px;">
+          <img src="images/sources.png" alt="RetroCode connected as a source in MorselHub" loading="lazy" width="800" height="500">
+          <div class="screenshot-label">RetroCode auto-discovered as a message source</div>
+        </div>
+        <div class="screenshot">
+          <img src="images/ai.png" alt="AI Providers panel showing Claude, Ollama, and Copilot" loading="lazy" width="800" height="500">
+          <div class="screenshot-label">AI providers panel with status indicators</div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Links -->
-  <div class="section">
-    <h2>Resources</h2>
-    <ul style="padding-left:24px;color:#999;font-size:1rem;line-height:2;">
-      <li><a href="https://github.com/senzalldev/morselhub-app">GitHub — Downloads & README</a></li>
-      <li><a href="https://github.com/senzalldev/morselhub-app/issues">Report an Issue</a></li>
-      <li><a href="https://senzall.com/retrocode">RetroCode — 1980s Meets AI</a></li>
-      <li><a href="https://senzall.com">Senzall</a></li>
-    </ul>
-  </div>
+  <!-- Screenshots -->
+  <section class="section" id="screenshots">
+    <p class="section-label">Screenshots</p>
+    <h2>See It in Action</h2>
+    <p class="section-desc">A native macOS app with a full-featured dashboard, message feed, provider management, and contact controls.</p>
+    <div class="screenshots-grid">
+      <div class="screenshot screenshot-wide">
+        <img src="images/dashboard.png" alt="MorselHub Dashboard showing message counters, AI status, and activity feed" loading="lazy" width="1200" height="700">
+        <div class="screenshot-label">Dashboard &mdash; AI provider status, message counters, source activity, and leaderboard</div>
+      </div>
+      <div class="screenshot">
+        <img src="images/messages.png" alt="MorselHub Messages view with conversation feed" loading="lazy" width="800" height="500">
+        <div class="screenshot-label">Messages &mdash; Full conversation feed across all sources</div>
+      </div>
+      <div class="screenshot">
+        <img src="images/ai.png" alt="MorselHub AI Providers configuration panel" loading="lazy" width="800" height="500">
+        <div class="screenshot-label">AI Providers &mdash; Configure and test each provider</div>
+      </div>
+      <div class="screenshot">
+        <img src="images/contacts.png" alt="MorselHub Contacts allowlist management" loading="lazy" width="800" height="500">
+        <div class="screenshot-label">Contacts &mdash; Allowlist management and security controls</div>
+      </div>
+      <div class="screenshot">
+        <img src="images/settings.png" alt="MorselHub Settings panel" loading="lazy" width="800" height="500">
+        <div class="screenshot-label">Settings &mdash; iMessage config, MCP server, and preferences</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download / Install -->
+  <section class="section" id="download">
+    <p class="section-label">Get Started</p>
+    <h2>Download &amp; Install</h2>
+    <p class="section-desc">Get MorselHub running in minutes. Free, signed, and notarized for macOS.</p>
+
+    <div class="install-card">
+      <h3>MorselHub v1.2.0</h3>
+      <p>Universal AI broker for macOS. Connect iMessage, RetroCode, and webhooks to Claude, Ollama, or GitHub Copilot.</p>
+      <a href="https://github.com/senzalldev/morselhub-app/releases/latest/download/MorselHub-macOS-arm64.dmg" class="dl-btn" style="margin-bottom:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .dmg (Apple Silicon)
+      </a>
+      <p style="font-size:0.8rem;color:#555;margin-top:12px;">macOS 12+ &middot; Apple Silicon (M1/M2/M3/M4) &middot; Signed &amp; Notarized</p>
+    </div>
+
+    <div class="install-steps" style="margin-top:40px;">
+      <h3 style="color:#e0e0e0;font-size:1.15rem;margin-bottom:16px;">Quick Start Guide</h3>
+      <ol>
+        <li>Download and open MorselHub</li>
+        <li>Grant <strong>Full Disk Access</strong> in System Settings for iMessage reading</li>
+        <li>Configure your iMessage address and approved contacts</li>
+        <li>Click <strong>Install MCP Server</strong> in the Setup tab</li>
+        <li>Add the MCP server: <span class="code">claude mcp add morselhub node ~/morselhub-mcp-server.mjs</span></li>
+        <li>Launch Claude with channels: <span class="code">claude --dangerously-load-development-channels server:morselhub</span></li>
+        <li>Send an iMessage prefixed with "Claude:" and watch it route through MorselHub to Claude, with the reply delivered back to your phone</li>
+      </ol>
+    </div>
+
+    <div class="warning-box">
+      <p><strong>Security notice:</strong> Only approved contacts can send messages to AI. Manage your contact allowlist carefully -- anyone on the list can trigger AI actions including running commands and editing files via Claude Code's tools.</p>
+      <p><strong>Token usage:</strong> Messages forwarded to Claude consume tokens from your Claude subscription. Monitor usage in the dashboard.</p>
+      <p><strong>Use at your own risk.</strong> MorselHub is provided as-is, without warranty. You are responsible for managing your contact list and monitoring AI activity.</p>
+    </div>
+  </section>
 
 </div>
 
-<div class="footer">
-  <p style="margin-bottom:8px;"><strong style="color:#00cccc;">Every morsel counts.</strong></p>
-  <p>Copyright © 2026 <a href="https://senzall.com">Senzall</a>. All rights reserved.</p>
-</div>
+<!-- Footer -->
+<footer class="footer">
+  <p class="footer-brand">Every morsel counts.</p>
+  <div class="footer-links">
+    <a href="https://github.com/senzalldev/morselhub-app">GitHub</a>
+    <a href="https://github.com/senzalldev/morselhub-app/issues">Issues</a>
+    <a href="https://senzalldev.github.io">Senzall Dev</a>
+    <a href="https://senzalldev.github.io/retrocode">RetroCode</a>
+    <a href="#features">Features</a>
+    <a href="#providers">Providers</a>
+    <a href="#download">Download</a>
+  </div>
+  <p class="footer-copy">Copyright &copy; 2026 Senzall. All rights reserved. MorselHub is a product of Senzall.</p>
+</footer>
 
 </body>
 </html>
